@@ -1,10 +1,13 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
+const bodyparser = require("body-parser");
 const helmet = require("helmet");
 const rateLimit = require('express-rate-limit');
 const { errorHandler } = require('./src/middlewares/errorHandler.js');
 const SharedRoute = require("./src/routes/SharedRoutes.js");
+const LoginRoute = require("./src/routes/LoginRoute.js");
+
 
 const app = express();
 //dotenv.config();
@@ -13,6 +16,7 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
+app.use(bodyparser.json());
 app.use(express.urlencoded({ extended: true })); //If you’re handling form submissions (like from HTML forms), add this too:
 app.use(errorHandler);
 
@@ -34,6 +38,7 @@ app.get('/testerrorhandler', (req, res) => {
 });
 
 
+app.use("/api/login", LoginRoute);
 app.use("/api/Shared", SharedRoute);
 
 
